@@ -1,4 +1,4 @@
-jHON<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}"> jajajajajaja
     <head>
         <meta charset="utf-8">
