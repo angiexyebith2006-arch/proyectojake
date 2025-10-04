@@ -1,0 +1,204 @@
+Base de Datos
+
+create database jake;
+use jake;
+drop database jake;
+
+
+
+create table usuario(
+id_numero_documento int not null primary key,
+nombre varchar(255) not null,
+apellido varchar(255) not null,
+tipo_documento ENUM('C.C.','T.I.') DEFAULT 'C.C.'not null,
+correo_electronico varchar(255) not null,
+fecha_nacimiento date not null,
+bautizo ENUM('Sí','No') default 'Sí' not null,
+bautizado_espiritu ENUM('Sí','No') default 'Sí' not null,
+direccion varchar(255) null,
+telefono  bigint not null,
+genero char(1) not null,
+contrasena varchar(255) not null,
+rol bigint not null,
+cargo int not null,
+foreign key (rol) references rol(id_rol),
+foreign key (cargo) references cargo(id_cargo));
+
+create table cargo(
+id_cargo bigint primary key not null,
+nombre varchar(255) not null,
+descripcion varchar (255) not null);
+
+ create table rol(
+ id_rol int not null primary key,
+ nombre varchar (255) not null, 
+ descripcion varchar (255) not null);
+
+create table mensaje(
+id_mensaje int primary key not null,
+fecha_envio date not null,
+hora_envio time not null,
+contenido varchar(255) not null,
+codigo_usuario int not null,
+codigo_chat int not null,
+foreign key (codigo_usuario) references usuario(id_numero_documento),
+foreign key (codigo_chat) references chat_actividades(id_chat));
+
+create table chat_actividades(
+id_chat int primary key not null); 
+
+create table visita(
+id_visita int not null primary key,
+motivo varchar (255) null, 
+fecha date not null,
+responsable varchar (255) not null,
+hora time not null, 
+tipo enum('Visita','Visitado') default 'visita',
+codigo_usuario int not null,
+foreign key (codigo_usuario) references usuario(id_numero_documento));
+ 
+ 
+ create table cumpleanos(
+ id_cumpleanos int not null primary key,
+ nombre varchar(255) not null,
+ fecha_nacimiento date not null,
+ codigo_usuario int not null,
+ foreign key (codigo_usuario) references usuario(id_numero_documento));
+ 
+ create table transaccion (
+id_transaccion INT PRIMARY KEY AUTO_INCREMENT,
+    fecha DATE NOT NULL,
+    detalle VARCHAR(255),
+    saldo DECIMAL(15, 2),
+    Tipo ENUM('Debito', 'Credito', 'Voto') NOT NULL,
+    valor DECIMAL(15, 2),
+    metodo_pago ENUM('Efectivo','Pago virtual') DEFAULT 'Efectivo',
+    comite VARCHAR(100),
+    comprobante LONGBLOB,
+    codigo_usuario int not null,
+    foreign key (codigo_usuario) references usuario(id_numero_documento));
+    
+    CREATE TABLE asistencia (
+    id_asistencia INT PRIMARY KEY AUTO_INCREMENT,
+    fecha_respuesta DATE NOT NULL,
+    estado ENUM('Confirmado','Cancelado') NOT NULL,
+	codigo_usuario int not null);
+    
+    CREATE TABLE incluye (
+	codigo_usuario int not null,
+	id_asistencia int not null,
+    FOREIGN KEY ( codigo_usuario) REFERENCES usuario(id_numero_documento),
+    FOREIGN KEY (id_asistencia) REFERENCES asistencia(id_asistencia)
+    );
+
+
+CREATE TABLE actividad (
+    id_actividad INT PRIMARY KEY,
+    motivo VARCHAR(200) NOT NULL,
+    lugar VARCHAR(200) NOT NULL,
+    responsable VARCHAR(100) NOT NULL,
+    hora TIME NOT NULL,
+    mensaje VARCHAR(255)   );
+    
+    CREATE TABLE reemplazo (
+    id_reemplazo INT PRIMARY KEY,
+    id_actividad INT NOT NULL,
+    id_usuario_titular int,
+    id_usuario_suplente int,
+    motivo VARCHAR(200),
+    FOREIGN KEY (id_actividad) REFERENCES actividad(id_actividad),
+    FOREIGN KEY (id_usuario_titular) REFERENCES usuario(id_numero_documento),
+    FOREIGN KEY (id_usuario_suplente) REFERENCES usuario(id_numero_documento) );
+    
+    
+CREATE TABLE incluye_asistencia (
+    id_numero_documento INT NOT NULL,
+    id_actividad INT NOT NULL,
+    estado VARCHAR(50),
+    id_reemplazo INT,
+    PRIMARY KEY (id_numero_documento, id_actividad),
+    FOREIGN KEY (id_numero_documento) REFERENCES usuario(id_numero_documento),
+    FOREIGN KEY (id_actividad) REFERENCES actividad(id_actividad),
+    FOREIGN KEY (id_reemplazo) REFERENCES reemplazo(id_reemplazo)    );
+    
+    
+SELECT * FROM transaccion;
+    
+    
+    INSERT INTO usuario (
+    id_numero_documento, nombre, apellido, tipo_documento, correo_electronico, 
+    fecha_nacimiento, bautizo, bautizado_espiritu, pastor_bautizo, fecha_bautizo_espiritu, 
+    direccion, telefono, genero, contrasena
+) VALUES
+(1001, 'Juan', 'Pérez', 'C.C.', 'juan.perez@example.com', '1990-05-12', 'Sí', 'Sí', 'Pastor Gómez', '2010-08-15', 'Calle 10 #12-34', 3001234567, 'M', '1234abcd'),
+(1002, 'María', 'García', 'C.C.', 'maria.garcia@example.com', '1995-07-21', 'Sí', 'No', 'Pastor Ramírez', NULL, 'Carrera 15 #45-67', 3012345678, 'F', 'maria123'),
+(1003, 'Andrés', 'López', 'T.I.', 'andres.lopez@example.com', '2002-03-30', 'No', 'No', NULL, NULL, 'Calle 23 #56-78', 3023456789, 'M', 'andres321'),
+(1004, 'Laura', 'Martínez', 'C.C.', 'laura.martinez@example.com', '1988-11-10', 'Sí', 'Sí', 'Pastor Duarte', '2005-09-20', 'Avenida 5 #67-89', 3034567890, 'F', 'laura456'),
+(1005, 'Carlos', 'Rodríguez', 'C.C.', 'carlos.rodriguez@example.com', '1992-02-14', 'Sí', 'Sí', 'Pastor Hernández', '2012-12-01', 'Calle 50 #10-20', 3045678901, 'M', 'carlos789'),
+(1006, 'Ana', 'Morales', 'C.C.', 'ana.morales@example.com', '1998-06-18', 'No', 'No', NULL, NULL, 'Carrera 22 #30-45', 3056789012, 'F', 'ana2024'),
+(1007, 'David', 'Torres', 'T.I.', 'david.torres@example.com', '2001-09-09', 'Sí', 'No', 'Pastor Pérez', NULL, 'Calle 70 #11-22', 3067890123, 'M', 'davidpass'),
+(1008, 'Camila', 'Hernández', 'C.C.', 'camila.hernandez@example.com', '1994-12-25', 'Sí', 'Sí', 'Pastor Jiménez', '2011-03-17', 'Carrera 40 #15-55', 3078901234, 'F', 'cami1234'),
+(1009, 'Felipe', 'Ramírez', 'C.C.', 'felipe.ramirez@example.com', '1987-04-05', 'Sí', 'Sí', 'Pastor Vargas', '2000-07-11', 'Calle 100 #20-30', 3089012345, 'M', 'felipe567'),
+(1010, 'Sofía', 'Castro', 'C.C.', 'sofia.castro@example.com', '1999-01-15', 'No', 'No', NULL, NULL, 'Carrera 80 #50-60', 3090123456, 'F', 'sofia890');
+
+select * from usuario;
+
+INSERT INTO transaccion (fecha, detalle, saldo, Tipo, valor, metodo_pago, comite, comprobante, codigo_usuario)
+VALUES
+('2025-09-01', 'Pago de inscripción', 10000.00, 'Debito', 10000.00, 'Efectivo', 'Comité Damas Jovenes', NULL, 1001),
+('2025-09-02', 'Decoración culto', 5000.00, 'Credito', 5000.00, 'Pago virtual', 'Comité Damas Dorcas', NULL, 1001),
+('2025-09-03', 'Pago de voto', 25000.00, 'Voto', 20000.00, 'Efectivo', 'Comité Logística', NULL, 1001),
+('2025-09-04', 'Votación de presupuesto', 55000.00, 'Voto', 30000.00, 'Efectivo', 'Comité General', NULL, 1001),
+('2025-09-05', 'Reembolso de gastos', 34000.00, 'Credito', 21000.00, 'Pago virtual', 'Comité Tesorería', NULL, 1001),
+('2025-09-06', 'Pago mensualidad', 84000.00, 'Debito', 50000.00, 'Efectivo', 'Comité Finanzas', NULL, 1001),
+('2025-09-07', 'Donación externa', 184000.00, 'Debito', 100000.00, 'Pago virtual', 'Comité Apoyo', NULL, 1002),
+ ('2025-09-09', 'Votación de evento', 204000.00, 'Voto', 10000.00, 'Efectivo', 'Comité General', NULL, 1001),
+('2025-09-10', 'Aporte extraordinario', 154000.00, 'Credito', 50000.00, 'Pago virtual', 'Comité Tesorería', NULL, 1010);
+
+INSERT INTO cumpleanos (id_cumpleanos, nombre, fecha_nacimiento, codigo_usuario) VALUES
+(1, 'Juan Pérez', '1990-05-12', 1001),
+(2, 'María García', '1995-07-21', 1002),
+(3, 'Andrés López', '2002-03-30', 1003),
+(4, 'Laura Martínez', '1988-11-10', 1004),
+(5, 'Carlos Rodríguez', '1992-02-14', 1005),
+(6, 'Ana Morales', '1998-06-18', 1006),
+(7, 'David Torres', '2001-09-09', 1007),
+(8, 'Camila Hernández', '1994-12-25', 1008),
+(9, 'Felipe Ramírez', '1987-04-05', 1009),
+(10, 'Sofía Castro', '1999-01-15', 1010);
+
+INSERT INTO actividad (id_actividad, motivo, lugar, responsable, hora, mensaje) VALUES
+(1, 'Culto de adoración dominical', 'Santuario principal', 'Pastor Juan Martínez', '10:00:00', 'Traer Biblias y corazones dispuestos para alabar a Dios'),
+(2, 'Estudio bíblico de midweek', 'Sala de conferencias', 'Diácono Carlos Rodríguez', '19:00:00', 'Estudiaremos el Evangelio de Juan capítulo 3'),
+(3, 'Reunión de jóvenes cristianos', 'Salón juvenil', 'Líder juvenil Ana González', '17:00:00', 'Tema: La voluntad de Dios para los jóvenes'),
+(4, 'Escuela dominical para niños', 'Aula de niños', 'Maestra Laura Fernández', '09:00:00', 'Lección sobre la creación de Dios'),
+(5, 'Ensamble de alabanza', 'Sala de música', 'Director de alabanza David López', '16:00:00', 'Ensayo para el culto del domingo'),
+(6, 'Reunión de intercesión', 'Capilla de oración', 'Hermano Roberto Sánchez', '06:00:00', 'Oración por las necesidades de la congregación'),
+(7, 'Consejo de ancianos', 'Oficina pastoral', 'Pastor principal', '15:00:00', 'Revisión de asuntos de la iglesia'),
+(8, 'Evangelismo en la comunidad', 'Parque central', 'Equipo de evangelismo', '16:30:00', 'Compartir el mensaje de salvación'),
+(9, 'Bautismos en agua', 'Pila bautismal', 'Pastor Juan Martínez', '12:00:00', 'Celebración de nuevos creyentes'),
+(10, 'Cena del Señor', 'Santuario principal', 'Pastor principal', '11:00:00', 'Commemoración de la muerte y resurrección de Cristo'),
+(11, 'Conferencia sobre la unicidad de Dios', 'Auditorio principal', 'Pastor invitado Miguel Torres', '18:00:00', 'Estudio bíblico sobre la naturaleza de Dios'),
+(12, 'Reunión de damas cristianas', 'Salón de damas', 'Líder Sofía Ramírez', '14:00:00', 'Estudio sobre la mujer virtuosa'),
+(13, 'Campamento de varones', 'Área de campamento', 'Líder de varones Pedro Vargas', '08:00:00', 'Retiro espiritual para crecimiento'),
+(14, 'Servicio de acción de gracias', 'Santuario principal', 'Pastor Juan Martínez', '10:00:00', 'Gratitud por las bendiciones recibidas'),
+(15, 'Clases de discipulado', 'Aula de discipulado', 'Discipulador Ricardo Molina', '17:30:00', 'Fundamentos de la fe cristiana'),
+(16, 'Visita a enfermos', 'Hogares de miembros', 'Ministerio de visitas', '15:00:00', 'Llevar consuelo y oración'),
+(17, 'Limpieza y mantenimiento del templo', 'Instalaciones de la iglesia', 'Diácono encargado', '08:00:00', 'Mantenimiento de la casa de Dios'),
+(18, 'Concierto de música cristiana', 'Auditorio principal', 'Ministerio de alabanza', '19:30:00', 'Noche de alabanza y adoración'),
+(19, 'Seminario sobre el bautismo en el nombre de Jesús', 'Sala de capacitación', 'Pastor principal', '10:00:00', 'Enseñanza bíblica sobre el bautismo'),
+(20, 'Celebración del año nuevo', 'Santuario principal', 'Pastor Juan Martínez', '22:00:00', 'Bienvenida al nuevo año en oración');
+
+
+INSERT INTO visita (id_visita, motivo, fecha, responsable, hora, tipo, codigo_usuario) VALUES
+(1, 'Familiar', '2025-07-10', 'Juan Pérez', '10:00:00', 'Visitado', 1001),
+(2, 'Espiritual', '2025-05-12', 'María Gómez', '03:00:00', 'Visitante', 1002),
+(3, 'Económico', '2025-03-15', 'Andrés López', '09:00:00', 'Visitado', 1003),
+(4, 'Doctrinal', '2025-04-17', 'Laura Martínez', '07:00:00', 'Visitante', 1004),
+(5, 'Familiar', '2025-11-18', 'Pedro Sánchez', '04:00:00', 'Visitado', 1005),
+(6, 'Espiritual', '2025-09-19', 'Diana Rodríguez', '11:00:00', 'Visitante', 1006),
+(8, 'Doctrinal', '2025-02-28', 'Juana Ortiz', '10:00:00', 'Visitado', 1007),
+(9, 'Económico', '2025-12-27', 'Carlos Mora', '06:00:00', 'Visitante', 1008),
+(10, 'Espiritual', '2025-03-24', 'Oscar Franco', '08:00:00', 'Visitado', 1009);
+
+select * from visita;
