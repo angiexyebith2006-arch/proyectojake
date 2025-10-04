@@ -11,8 +11,7 @@
 <body class="min-h-screen bg-cover bg-center" 
       style="background-image: url('{{ asset('images/Fondo_welcome.png') }}');">
 
-  <!-- Capa oscura para contraste -->
-  <div class="bg-black bg-opacity-50 min-h-screen">
+
     
     <!-- Barra superior -->
     <header class="bg-yellow-500 flex justify-between items-center px-6 py-4">
