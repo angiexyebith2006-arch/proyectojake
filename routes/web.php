@@ -5,7 +5,10 @@ use App\Http\Controllers\Usuario\UsuarioController;
 use App\Http\Controllers\Transaccion\TransaccionController;
 use App\Http\Controllers\Actividad\ActividadController;
 use App\Http\Controllers\Visita\VisitaController;
-use App\Http\Controllers\Cumpleano\CumpleanoController; //  CORREGIDO
+use App\Http\Controllers\Cumpleano\CumpleanoController;
+
+use App\Http\Controllers\AuthController;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -51,3 +54,7 @@ Route::middleware([
 ])->group(function () {
     //
 });
+
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [AuthController::class, 'login'])->name('login.post');
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout');

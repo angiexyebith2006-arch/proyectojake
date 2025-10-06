@@ -24,7 +24,7 @@
             <label>Código Usuario</label>
             <input type="number" name="codigo_usuario" class="border p-2 w-full" required>
 
-            <button class="mt-4 px-4 py-2 bg-green-600 text-white rounded">Guardar</button>
+            <button class="mt-4 px-4 py-2 bg-blue-600 text-white rounded">Guardar</button>
         </form>
     </div>
 </x-app-layout>

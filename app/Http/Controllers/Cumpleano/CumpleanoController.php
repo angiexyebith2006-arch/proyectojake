@@ -23,17 +23,7 @@ class CumpleanoController extends Controller
             9 => "Septiembre", 10 => "Octubre", 11 => "Noviembre", 12 => "Diciembre"
         ];
 
-        // ================== ACTIVIDADES ==================
-        $actividades = Actividad::whereMonth('hora', $mes)
-            ->whereYear('hora', $anio)
-            ->get();
-
-        $eventos = [];
-
-        foreach ($actividades as $actividad) {
-            $dia = date("j", strtotime($actividad->hora));
-            $eventos[$dia][] = " {$actividad->motivo} ({$actividad->lugar})";
-        }
+        
 
         // ================== CUMPLEAÑOS ==================
         $cumpleanos = Cumpleano::whereMonth('fecha_nacimiento', $mes)->get();

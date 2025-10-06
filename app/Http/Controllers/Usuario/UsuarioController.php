@@ -11,6 +11,11 @@ use App\Http\Requests\StoreUsuarioRequest;
 use App\Http\Requests\UpdateUsuarioRequest;
 use Illuminate\Support\Facades\Hash;
 
+
+
+
+
+
 class UsuarioController extends Controller
 {
     // LISTAR
@@ -61,3 +66,4 @@ class UsuarioController extends Controller
         return redirect()->route('usuario.index')->with('success', 'Usuario eliminado correctamente');
     }
 }
+
