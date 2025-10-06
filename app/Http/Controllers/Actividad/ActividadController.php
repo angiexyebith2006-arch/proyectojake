@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Actividad;
 
 use App\Http\Controllers\Controller;
 use App\Models\Actividad;
+use App\Http\Requests\StoreActividadRequest;
+use App\Http\Requests\UpdateActividadRequest;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
@@ -25,25 +27,19 @@ class ActividadController extends Controller
      */
     public function create()
     {
-        return view('actividades.create'); //  SOLO debe retornar la vista
+        return view('actividades.create');
     }
 
     /**
-     * Guardar nueva actividad.
+     * Guardar nueva actividad usando StoreActividadRequest.
      */
-    public function store(Request $request) //  Este método debe estar SEPARADO
+    public function store(StoreActividadRequest $request)
     {
         try {
             \Log::info('Datos recibidos en store:', $request->all());
             
-            $validated = $request->validate([
-                'motivo' => 'required|string|max:200',
-                'lugar' => 'required|string|max:200',
-                'responsable' => 'required|string|max:100',
-                'fecha' => 'required|date|after_or_equal:today',
-                'hora' => 'required',
-                'mensaje' => 'nullable|string|max:255'
-            ]);
+            // Los datos ya están validados por StoreActividadRequest
+            $validated = $request->validated();
 
             // Convertir hora al formato TIME de MySQL (agregar segundos)
             $validated['hora'] = $validated['hora'] . ':00';

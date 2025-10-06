@@ -11,7 +11,7 @@ class UpdateActividadRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true; // Cambiar a true para permitir la actualización
+        return true;
     }
 
     /**
@@ -25,7 +25,7 @@ class UpdateActividadRequest extends FormRequest
             'motivo' => 'required|string|max:200',
             'lugar' => 'required|string|max:200',
             'responsable' => 'required|string|max:100',
-            'fecha' => 'required|date|after_or_equal:today',
+            'fecha' => 'required|date',
             'hora' => 'required|date_format:H:i',
             'mensaje' => 'nullable|string|max:255'
         ];
@@ -37,18 +37,26 @@ class UpdateActividadRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'motivo.required' => 'El motivo es obligatorio.',
-            'motivo.max' => 'El motivo no puede tener más de 200 caracteres.',
-            'lugar.required' => 'El lugar es obligatorio.',
-            'lugar.max' => 'El lugar no puede tener más de 200 caracteres.',
-            'responsable.required' => 'El responsable es obligatorio.',
-            'responsable.max' => 'El responsable no puede tener más de 100 caracteres.',
-            'fecha.required' => 'La fecha es obligatoria.',
-            'fecha.date' => 'La fecha debe ser una fecha válida.',
-            'fecha.after_or_equal' => 'La fecha debe ser igual o posterior a hoy.',
-            'hora.required' => 'La hora es obligatoria.',
-            'hora.date_format' => 'La hora debe tener un formato válido (HH:MM).',
-            'mensaje.max' => 'El mensaje no puede tener más de 255 caracteres.'
+            'motivo.required'       => 'El motivo es obligatorio.',
+            'motivo.string'         => 'El motivo debe ser texto.',
+            'motivo.max'            => 'El motivo no puede tener más de 200 caracteres.',
+            
+            'lugar.required'        => 'El lugar es obligatorio.',
+            'lugar.string'          => 'El lugar debe ser texto.',
+            'lugar.max'             => 'El lugar no puede tener más de 200 caracteres.',
+            
+            'responsable.required'  => 'El responsable es obligatorio.',
+            'responsable.string'    => 'El responsable debe ser texto.',
+            'responsable.max'       => 'El responsable no puede tener más de 100 caracteres.',
+            
+            'fecha.required'        => 'La fecha es obligatoria.',
+            'fecha.date'            => 'La fecha debe ser una fecha válida.',
+            
+            'hora.required'         => 'La hora es obligatoria.',
+            'hora.date_format'      => 'La hora debe tener un formato válido (HH:MM).',
+            
+            'mensaje.string'        => 'El mensaje debe ser texto.',
+            'mensaje.max'           => 'El mensaje no puede tener más de 255 caracteres.'
         ];
     }
 }

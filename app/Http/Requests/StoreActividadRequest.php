@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class StoreActividadRequest extends FormRequest
 {
@@ -37,18 +39,66 @@ class StoreActividadRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'motivo.required' => 'El motivo es obligatorio.',
-            'motivo.max' => 'El motivo no puede tener más de 200 caracteres.',
-            'lugar.required' => 'El lugar es obligatorio.',
-            'lugar.max' => 'El lugar no puede tener más de 200 caracteres.',
-            'responsable.required' => 'El responsable es obligatorio.',
-            'responsable.max' => 'El responsable no puede tener más de 100 caracteres.',
-            'fecha.required' => 'La fecha es obligatoria.',
-            'fecha.date' => 'La fecha debe ser una fecha válida.',
-            'fecha.after_or_equal' => 'La fecha debe ser igual o posterior a hoy.',
-            'hora.required' => 'La hora es obligatoria.',
-            'hora.date_format' => 'La hora debe tener un formato válido (HH:MM).',
-            'mensaje.max' => 'El mensaje no puede tener más de 255 caracteres.'
+            'motivo.required'       => 'El motivo es obligatorio.',
+            'motivo.string'         => 'El motivo debe ser texto.',
+            'motivo.max'            => 'El motivo no puede tener más de 200 caracteres.',
+            
+            'lugar.required'        => 'El lugar es obligatorio.',
+            'lugar.string'          => 'El lugar debe ser texto.',
+            'lugar.max'             => 'El lugar no puede tener más de 200 caracteres.',
+            
+            'responsable.required'  => 'El responsable es obligatorio.',
+            'responsable.string'    => 'El responsable debe ser texto.',
+            'responsable.max'       => 'El responsable no puede tener más de 100 caracteres.',
+            
+            'fecha.required'        => 'La fecha es obligatoria.',
+            'fecha.date'            => 'La fecha debe ser una fecha válida.',
+            'fecha.after_or_equal'  => 'La fecha debe ser igual o posterior a hoy.',
+            
+            'hora.required'         => 'La hora es obligatoria.',
+            'hora.date_format'      => 'La hora debe tener un formato válido (HH:MM).',
+            
+            'mensaje.string'        => 'El mensaje debe ser texto.',
+            'mensaje.max'           => 'El mensaje no puede tener más de 255 caracteres.'
         ];
+    }
+
+    /**
+     * Prepare the data for validation.
+     */
+    protected function prepareForValidation()
+    {
+        // Limpiar y formatear datos antes de validar
+        if ($this->has('motivo')) {
+            $this->merge([
+                'motivo' => trim($this->motivo)
+            ]);
+        }
+
+        if ($this->has('lugar')) {
+            $this->merge([
+                'lugar' => trim($this->lugar)
+            ]);
+        }
+
+        if ($this->has('responsable')) {
+            $this->merge([
+                'responsable' => trim($this->responsable)
+            ]);
+        }
+    }
+
+    /**
+     * Manejar una validación fallida.
+     * ESTE MÉTODO ES CLAVE PARA MOSTRAR TUS MENSAJES PERSONALIZADOS
+     */
+    protected function failedValidation(Validator $validator)
+    {
+        // Redirige de vuelta con los errores personalizados
+        throw new HttpResponseException(
+            redirect()->back()
+                ->withErrors($validator) // Esto pasa tus mensajes personalizados
+                ->withInput()
+        );
     }
 }
