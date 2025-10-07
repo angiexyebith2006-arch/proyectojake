@@ -33,8 +33,6 @@ class StoreRegistroRequest extends FormRequest
             'telefono'  =>              'required|digits:10',
             'genero' =>                 'required|in:Masculino,Femenino',
             'contrasena' =>             'required|string|min:8|max:255|confirmed',
-            'rol_id'   =>               'required|exists:roles,id',
-            'cargo_id' =>               'required|exists:cargos,id',
         ];
     }
 
@@ -96,13 +94,6 @@ class StoreRegistroRequest extends FormRequest
             'contrasena.max' => 'La contraseña no puede tener más de 255 caracteres.',
             'contrasena.confirmed' => 'Las contraseñas no coinciden.',
             
-            // Mensajes para rol_id
-            'rol_id.required' => 'El rol es obligatorio.',
-            'rol_id.exists' => 'El rol seleccionado no es válido.',
-            
-            // Mensajes para cargo_id
-            'cargo_id.required' => 'El cargo es obligatorio.',
-            'cargo_id.exists' => 'El cargo seleccionado no es válido.',
         ];
     }
 }

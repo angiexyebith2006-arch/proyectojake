@@ -11,8 +11,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -26,12 +24,9 @@
                     </div>
 
                     <!-- Formulario de Edición -->
-                    <form action="{{ route('actividades.update', $actividad->id_actividad) }}" method="POST" class="space-y-6">
+                    <form action="{{ route('actividades.update', $actividad->id_actividad) }}" method="POST" class="space-y-6" novalidate>
                         @csrf
                         @method('PUT')
-
-                        <!-- Campo oculto para enviar ID -->
-                        <input type="hidden" name="id_actividad" value="{{ $actividad->id_actividad }}">
 
                         <!-- Card del Formulario -->
                         <div class="card">
@@ -59,11 +54,10 @@
                                                name="motivo" 
                                                id="motivo"
                                                value="{{ old('motivo', $actividad->motivo) }}"
-                                               class="form-input"
-                                               required
+                                               class="form-input @error('motivo') border-red-500 bg-red-50 @enderror"
                                                placeholder="Ej: Culto de adoración dominical">
                                         @error('motivo')
-                                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                            <p class="text-red-500 text-xs mt-1 font-medium">{{ $message }}</p>
                                         @enderror
                                     </div>
 
@@ -74,11 +68,10 @@
                                                name="lugar" 
                                                id="lugar"
                                                value="{{ old('lugar', $actividad->lugar) }}"
-                                               class="form-input"
-                                               required
+                                               class="form-input @error('lugar') border-red-500 bg-red-50 @enderror"
                                                placeholder="Ej: Santuario principal">
                                         @error('lugar')
-                                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                            <p class="text-red-500 text-xs mt-1 font-medium">{{ $message }}</p>
                                         @enderror
                                     </div>
                                 </div>
@@ -91,11 +84,10 @@
                                                name="responsable" 
                                                id="responsable"
                                                value="{{ old('responsable', $actividad->responsable) }}"
-                                               class="form-input"
-                                               required
+                                               class="form-input @error('responsable') border-red-500 bg-red-50 @enderror"
                                                placeholder="Ej: Pastor Juan Martínez">
                                         @error('responsable')
-                                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                            <p class="text-red-500 text-xs mt-1 font-medium">{{ $message }}</p>
                                         @enderror
                                     </div>
 
@@ -106,10 +98,9 @@
                                                name="fecha" 
                                                id="fecha"
                                                value="{{ old('fecha', $actividad->fecha ? $actividad->fecha->format('Y-m-d') : '') }}"
-                                               class="form-input"
-                                               required>
+                                               class="form-input @error('fecha') border-red-500 bg-red-50 @enderror">
                                         @error('fecha')
-                                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                            <p class="text-red-500 text-xs mt-1 font-medium">{{ $message }}</p>
                                         @enderror
                                     </div>
                                 </div>
@@ -121,10 +112,9 @@
                                            name="hora" 
                                            id="hora"
                                            value="{{ old('hora', $actividad->hora ? \Carbon\Carbon::parse($actividad->hora)->format('H:i') : '') }}"
-                                           class="form-input"
-                                           required>
+                                           class="form-input @error('hora') border-red-500 bg-red-50 @enderror">
                                     @error('hora')
-                                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                        <p class="text-red-500 text-xs mt-1 font-medium">{{ $message }}</p>
                                     @enderror
                                 </div>
 
@@ -134,10 +124,10 @@
                                     <textarea name="mensaje" 
                                               id="mensaje" 
                                               rows="4"
-                                              class="form-textarea"
+                                              class="form-textarea @error('mensaje') border-red-500 bg-red-50 @enderror"
                                               placeholder="Ej: Traer Biblias y corazones dispuestos para alabar a Dios">{{ old('mensaje', $actividad->mensaje) }}</textarea>
                                     @error('mensaje')
-                                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                        <p class="text-red-500 text-xs mt-1 font-medium">{{ $message }}</p>
                                     @enderror
                                 </div>
                             </div>
@@ -154,17 +144,7 @@
                         </div>
                     </form>
 
-                    <!-- Formulario de Eliminación -->
-                    <div class="danger-zone mt-8">
-                        <h4 class="text-lg font-semibold text-red-800 mb-2">Zona de Peligro</h4>
-                        <p class="text-red-600 mb-4">Esta acción no se puede deshacer. Se eliminará permanentemente la actividad.</p>
-                        <form action="{{ route('actividades.destroy', $actividad->id_actividad) }}" method="POST" 
-                              onsubmit="return confirm('¿Estás seguro de que deseas eliminar esta actividad? Esta acción no se puede deshacer.')">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger">
-                                <i class="fas fa-trash mr-2"></i> Eliminar Actividad
-                            </button>
+           
                         </form>
                     </div>
                 </div>
@@ -250,6 +230,15 @@
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
         }
         
+        .form-input.border-red-500 {
+            border-color: #ef4444;
+            background-color: #fef2f2;
+        }
+        
+        .bg-red-50 {
+            background-color: #fef2f2;
+        }
+        
         .form-textarea {
             width: 100%;
             border: 1px solid #d1d5db;
@@ -265,6 +254,11 @@
             outline: none;
             border-color: #3b82f6;
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+        
+        .form-textarea.border-red-500 {
+            border-color: #ef4444;
+            background-color: #fef2f2;
         }
         
         .danger-zone {

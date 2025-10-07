@@ -79,29 +79,21 @@ class ActividadController extends Controller
     /**
      * Actualizar actividad.
      */
-    public function update(Request $request, $id)
-    {
-        $actividad = Actividad::find($id);
-        
-        if (!$actividad) {
-            return redirect()->route('actividades.index')
-                ->with('error', 'Actividad no encontrada.');
-        }
-
-        $validated = $request->validate([
-            'motivo' => 'required|string|max:200',
-            'lugar' => 'required|string|max:200',
-            'responsable' => 'required|string|max:100',
-            'fecha' => 'required|date|after_or_equal:today',
-            'hora' => 'required|date_format:H:i',
-            'mensaje' => 'nullable|string|max:255'
-        ]);
-
-        $actividad->update($validated);
-
+   public function update(UpdateActividadRequest $request, $id)
+{
+    $actividad = Actividad::find($id);
+    
+    if (!$actividad) {
         return redirect()->route('actividades.index')
-            ->with('success', 'Actividad actualizada exitosamente.');
+            ->with('error', 'Actividad no encontrada.');
     }
+
+    $validated = $request->validated();
+    $actividad->update($validated);
+
+    return redirect()->route('actividades.index')
+        ->with('success', 'Actividad actualizada exitosamente.');
+}
 
     /**
      * Eliminar actividad.

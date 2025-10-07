@@ -24,14 +24,21 @@
              class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-black dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
              placeholder=" " required />
       <label for="fecha" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Fecha</label>
-  </div>
+   @error('fecha')
+            <p class="text-red-500 text-xs mt-1 font-medium">{{ $message }}</p>
+        @enderror
+  
+    </div>
    <!-- Detalle -->
   <div class="relative z-0 w-full mb-5 group">
       <input type="text" name="detalle" id="detalle" value="{{ old('detalle') }}"
              class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-black dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
              placeholder=" " required />
       <label for="detalle" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Detalle</label>
-  </div>
+  @error('detalle')
+            <p class="text-red-500 text-xs mt-1 font-medium">{{ $message }}</p>
+        @enderror
+    </div>
  <!-- Tipo de transaccion -->
   <div class="grid md:grid-cols-2 md:gap-6">
     <div class="relative z-0 w-full mb-5 group">
@@ -43,14 +50,20 @@
             <option value="Voto" {{ old('tipo') == 'Voto' ? 'selected' : '' }}>Voto</option>
         </select>
         <label for="tipo" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Tipo de movimiento</label>
-    </div>
+   
+    @error('tipo')
+            <p class="text-red-500 text-xs mt-1 font-medium">{{ $message }}</p>
+        @enderror </div>
      <!-- Valor de ingreso -->
     <div class="relative z-0 w-full mb-5 group">
         <input type="number" name="valor" id="valor" value="{{ old('valor') }}"
                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-black dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                placeholder=" " required />
         <label for="valor" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Valor de Movimiento</label>
-    </div>
+    
+     @error('valor')
+            <p class="text-red-500 text-xs mt-1 font-medium">{{ $message }}</p>
+        @enderror</div>
   </div>
    <!-- Metodo de pago -->
   <div class="grid md:grid-cols-2 md:gap-6">
@@ -62,13 +75,20 @@
             <option value="Pago Virtual" {{ old('metodo_pago') == 'Pago Virtual' ? 'selected' : '' }}>Pago Virtual</option>
         </select>
         <label for="metodo_pago" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Metodo de Pago</label>
-    </div>
+   
+    @error('metodo_pago')
+            <p class="text-red-500 text-xs mt-1 font-medium">{{ $message }}</p>
+        @enderror
+     </div>
      <!-- Comite -->
     <div class="relative z-0 w-full mb-5 group">
         <input type="text" name="comite" id="comite" value="{{ old('comite') }}"
                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-black dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                placeholder=" " required />
         <label for="comite" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Comité</label>
+    @error('comite')
+            <p class="text-red-500 text-xs mt-1 font-medium">{{ $message }}</p>
+        @enderror
     </div>
   </div>
     <!-- Usuario que lo registra -->
@@ -81,6 +101,9 @@
             @endforeach
         </select>
         <label for="codigo_usuario" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Nombre del Responsable</label>
+   @error('lugar')
+            <p class="text-red-500 text-xs mt-1 font-medium">{{ $message }}</p>
+        @enderror
     </div>
     <!-- Botón Guardar -->
       <button type="submit" class="text-white bg-blue-500 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">

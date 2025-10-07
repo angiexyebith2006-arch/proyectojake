@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Cumpleano;
 
 use App\Http\Controllers\Controller;
-use App\Models\Actividad;
+use App\Http\Requests\UpdateCumpleanoRequest;
 use App\Models\Cumpleano;
 use Illuminate\Http\Request;
 
@@ -23,31 +23,25 @@ class CumpleanoController extends Controller
             9 => "Septiembre", 10 => "Octubre", 11 => "Noviembre", 12 => "Diciembre"
         ];
 
-        
+        $eventos = [];
 
         // ================== CUMPLEAÑOS ==================
         $cumpleanos = Cumpleano::whereMonth('fecha_nacimiento', $mes)->get();
 
         foreach ($cumpleanos as $cumpleano) {
-            // Día y mes de nacimiento
             $diaCumple = date("j", strtotime($cumpleano->fecha_nacimiento));
             $mesCumple = date("n", strtotime($cumpleano->fecha_nacimiento));
 
-            // Solo mostrar si coincide con el mes seleccionado
             if ($mesCumple == $mes) {
-                // Cumpleaños en el año actual seleccionado
                 $fechaCumple = new \DateTime("$anio-$mes-$diaCumple");
                 $fechaNac = new \DateTime($cumpleano->fecha_nacimiento);
 
-                // Calcular edad
                 $edad = $fechaNac->diff($fechaCumple)->y;
 
-                // Agregar al calendario
                 $eventos[$diaCumple][] = " Cumpleaños de {$cumpleano->nombre} - {$edad} años";
             }
         }
 
-        // ================== CALENDARIO ==================
         $primerDia = date("N", strtotime("$anio-$mes-01"));
         $diasMes = date("t", strtotime("$anio-$mes-01"));
 
@@ -97,17 +91,15 @@ class CumpleanoController extends Controller
         return view('cronograma.edit', compact('cumpleanos'));
     }
 
-    public function update(Request $request, string $id)
+    public function update(UpdateCumpleanoRequest $request, $id)
     {
-        $request->validate([
-            'nombre' => 'required|string|max:100',
-            'fecha_nacimiento' => 'required|date',
-            'codigo_usuario' => 'required|integer'
-        ]);
+        // ✅ Buscar el registro existente
+        $cumpleano = Cumpleano::findOrFail($id);
 
-        $cumpleanos = Cumpleano::findOrFail($id);
-        $cumpleanos->update($request->all());
+        // ✅ Actualizar con los datos validados
+        $cumpleano->update($request->validated());
 
+        // ✅ Redirigir con mensaje de éxito
         return redirect()->route('cronograma.index')
             ->with('success', 'Cumpleaños actualizado correctamente.');
     }
@@ -124,3 +116,4 @@ class CumpleanoController extends Controller
         return back()->with('success', 'Cumpleaños eliminado correctamente');
     }
 }
+

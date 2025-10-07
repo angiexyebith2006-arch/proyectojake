@@ -27,131 +27,100 @@
                     </div>
 
                     <!-- Formulario de Creación -->
-                    <form action="{{ route('actividades.store') }}" method="POST" class="space-y-6">
-                        @csrf
+<form action="{{ route('actividades.store') }}" method="POST" class="space-y-6" novalidate>
+    @csrf
 
-                        <!-- Card del Formulario -->
-                        <div class="card">
-                            <div class="card-header">
-                                <h3 class="text-lg font-semibold">Información de la Actividad</h3>
-                            </div>
-                            <div class="card-body p-6">
+    <!-- Motivo -->
+    <div class="mb-4">
+        <label for="motivo" class="block text-sm font-medium text-gray-700">Motivo *</label>
+        <input type="text" 
+               name="motivo" 
+               id="motivo"
+               value="{{ old('motivo') }}"
+               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('motivo') border-red-500 bg-red-50 @enderror"
+               placeholder="Ej: Culto de adoración dominical">
+        @error('motivo')
+            <p class="text-red-500 text-xs mt-1 font-medium">{{ $message }}</p>
+        @enderror
+    </div>
 
-                                @if ($errors->any())
-            <div class="mb-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg">
-                <h3 class="font-bold mb-2">Errores de validación:</h3>
-                <ul class="list-disc list-inside">
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
+    <!-- Lugar -->
+    <div class="mb-4">
+        <label for="lugar" class="block text-sm font-medium text-gray-700">Lugar *</label>
+        <input type="text" 
+               name="lugar" 
+               id="lugar"
+               value="{{ old('lugar') }}"
+               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('lugar') border-red-500 bg-red-50 @enderror"
+               placeholder="Ej: Santuario principal">
+        @error('lugar')
+            <p class="text-red-500 text-xs mt-1 font-medium">{{ $message }}</p>
+        @enderror
+    </div>
 
-        @if (session('error'))
-            <div class="mb-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg">
-                {{ session('error') }}
-            </div>
-        @endif
+    <!-- Responsable -->
+    <div class="mb-4">
+        <label for="responsable" class="block text-sm font-medium text-gray-700">Responsable *</label>
+        <input type="text" 
+               name="responsable" 
+               id="responsable"
+               value="{{ old('responsable') }}"
+               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('responsable') border-red-500 bg-red-50 @enderror"
+               placeholder="Ej: Pastor Juan Martínez">
+        @error('responsable')
+            <p class="text-red-500 text-xs mt-1 font-medium">{{ $message }}</p>
+        @enderror
+    </div>
 
-                                <!-- Motivo -->
-                                <div class="mb-4">
-                                    <label for="motivo" class="block text-sm font-medium text-gray-700">Motivo *</label>
-                                    <input type="text" 
-                                           name="motivo" 
-                                           id="motivo"
-                                           value="{{ old('motivo') }}"
-                                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                                           required
-                                           placeholder="Ej: Culto de adoración dominical">
-                                    @error('motivo')
-                                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                                    @enderror
-                                </div>
+    <!-- Fecha -->
+    <div class="mb-4">
+        <label for="fecha" class="block text-sm font-medium text-gray-700">Fecha *</label>
+        <input type="date" 
+               name="fecha" 
+               id="fecha"
+               value="{{ old('fecha') }}"
+               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('fecha') border-red-500 bg-red-50 @enderror">
+        @error('fecha')
+            <p class="text-red-500 text-xs mt-1 font-medium">{{ $message }}</p>
+        @enderror
+    </div>
 
-                                <!-- Lugar -->
-                                <div class="mb-4">
-                                    <label for="lugar" class="block text-sm font-medium text-gray-700">Lugar *</label>
-                                    <input type="text" 
-                                           name="lugar" 
-                                           id="lugar"
-                                           value="{{ old('lugar') }}"
-                                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                                           required
-                                           placeholder="Ej: Santuario principal">
-                                    @error('lugar')
-                                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                                    @enderror
-                                </div>
+    <!-- Hora -->
+    <div class="mb-4">
+        <label for="hora" class="block text-sm font-medium text-gray-700">Hora *</label>
+        <input type="time" 
+               name="hora" 
+               id="hora"
+               value="{{ old('hora') }}"
+               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('hora') border-red-500 bg-red-50 @enderror">
+        @error('hora')
+            <p class="text-red-500 text-xs mt-1 font-medium">{{ $message }}</p>
+        @enderror
+    </div>
 
-                                <!-- Responsable -->
-                                <div class="mb-4">
-                                    <label for="responsable" class="block text-sm font-medium text-gray-700">Responsable *</label>
-                                    <input type="text" 
-                                           name="responsable" 
-                                           id="responsable"
-                                           value="{{ old('responsable') }}"
-                                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                                           required
-                                           placeholder="Ej: Pastor Juan Martínez">
-                                    @error('responsable')
-                                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                                    @enderror
-                                </div>
+    <!-- Mensaje -->
+    <div class="mb-4">
+        <label for="mensaje" class="block text-sm font-medium text-gray-700">Mensaje o Observaciones</label>
+        <textarea name="mensaje" 
+                  id="mensaje" 
+                  rows="4"
+                  class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('mensaje') border-red-500 bg-red-50 @enderror"
+                  placeholder="Ej: Traer Biblias y corazones dispuestos para alabar a Dios">{{ old('mensaje') }}</textarea>
+        @error('mensaje')
+            <p class="text-red-500 text-xs mt-1 font-medium">{{ $message }}</p>
+        @enderror
+    </div>
 
-                                <!-- Fecha -->
-                                <div class="mb-4">
-                                    <label for="fecha" class="block text-sm font-medium text-gray-700">Fecha *</label>
-                                    <input type="date" 
-                                           name="fecha" 
-                                           id="fecha"
-                                           value="{{ old('fecha') }}"
-                                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                                           required>
-                                    @error('fecha')
-                                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                                    @enderror
-                                </div>
-
-                                <!-- Hora -->
-                                <div class="mb-4">
-                                    <label for="hora" class="block text-sm font-medium text-gray-700">Hora *</label>
-                                    <input type="time" 
-                                           name="hora" 
-                                           id="hora"
-                                           value="{{ old('hora') }}"
-                                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                                           required>
-                                    @error('hora')
-                                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                                    @enderror
-                                </div>
-
-                                <!-- Mensaje -->
-                                <div class="mb-4">
-                                    <label for="mensaje" class="block text-sm font-medium text-gray-700">Mensaje o Observaciones</label>
-                                    <textarea name="mensaje" 
-                                              id="mensaje" 
-                                              rows="4"
-                                              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                                              placeholder="Ej: Traer Biblias y corazones dispuestos para alabar a Dios">{{ old('mensaje') }}</textarea>
-                                    @error('mensaje')
-                                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                                    @enderror
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Botones de Acción -->
-                        <div class="flex justify-end space-x-4">
-                            <a href="{{ route('actividades.index') }}" class="btn btn-secondary">
-                                <i class="fas fa-times"></i> Cancelar
-                            </a>
-                            <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-save"></i> Crear Actividad
-                            </button>
-                        </div>
-                    </form>
+    <!-- Botones de Acción -->
+    <div class="flex justify-end space-x-4">
+        <a href="{{ route('actividades.index') }}" class="btn btn-secondary">
+            <i class="fas fa-times"></i> Cancelar
+        </a>
+        <button type="submit" class="btn btn-primary">
+            <i class="fas fa-save"></i> Crear Actividad
+        </button>
+    </div>
+</form>
                 </div>
             </div>
         </div>
