@@ -5,113 +5,310 @@
         </h2>
     </x-slot>
 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AdminApp - Dashboard</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <div class="py-12">
-        <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
- <!-- Botón Volver -->
-             <div class="mb-6">
-                        <a href="{{ route('finanzas.index') }}" class="text-white bg-yellow-500 focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 btn btn-secondary">
+        <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
+                <div class="p-6">
+                    <!-- Botón Volver -->
+                    <div class="mb-4">
+                        <a href="{{ route('finanzas.index') }}" class="btn btn-secondary">
                             <i class="fas fa-arrow-left"></i> Volver al Listado
                         </a>
                     </div>
 
-<form action="{{ route('finanzas.store') }}" method="POST" class="space-y-6">
-    @csrf
+                    <!-- Formulario de Creación -->
+                    <form action="{{ route('finanzas.store') }}" method="POST" class="space-y-6" novalidate>
+                        @csrf
 
-     <!-- fecha -->
- <div class="relative z-0 w-full mb-5 group">
-      <input type="date" name="fecha" id="fecha" value="{{ old('fecha') }}"
-             class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-black dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-             placeholder=" " required />
-      <label for="fecha" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Fecha</label>
-   @error('fecha')
-            <p class="text-red-500 text-xs mt-1 font-medium">{{ $message }}</p>
-        @enderror
-  
-    </div>
-   <!-- Detalle -->
-  <div class="relative z-0 w-full mb-5 group">
-      <input type="text" name="detalle" id="detalle" value="{{ old('detalle') }}"
-             class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-black dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-             placeholder=" " required />
-      <label for="detalle" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Detalle</label>
-  @error('detalle')
-            <p class="text-red-500 text-xs mt-1 font-medium">{{ $message }}</p>
-        @enderror
-    </div>
- <!-- Tipo de transaccion -->
-  <div class="grid md:grid-cols-2 md:gap-6">
-    <div class="relative z-0 w-full mb-5 group">
-        <select name="tipo" id="tipo"
-                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 
-                border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer">
-            <option value="Debito" {{ old('tipo') == 'Debito' ? 'selected' : '' }}>Debito</option>
-            <option value="Credito" {{ old('tipo') == 'Credito' ? 'selected' : '' }}>Credito</option>
-            <option value="Voto" {{ old('tipo') == 'Voto' ? 'selected' : '' }}>Voto</option>
-        </select>
-        <label for="tipo" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Tipo de movimiento</label>
-   
-    @error('tipo')
-            <p class="text-red-500 text-xs mt-1 font-medium">{{ $message }}</p>
-        @enderror </div>
-     <!-- Valor de ingreso -->
-    <div class="relative z-0 w-full mb-5 group">
-        <input type="number" name="valor" id="valor" value="{{ old('valor') }}"
-               class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-black dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-               placeholder=" " required />
-        <label for="valor" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Valor de Movimiento</label>
-    
-     @error('valor')
-            <p class="text-red-500 text-xs mt-1 font-medium">{{ $message }}</p>
-        @enderror</div>
-  </div>
-   <!-- Metodo de pago -->
-  <div class="grid md:grid-cols-2 md:gap-6">
-    <div class="relative z-0 w-full mb-5 group">
-        <select name="metodo_pago" id="metodo_pago"
-                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 
-                border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer">
-            <option value="Efectivo" {{ old('metodo_pago') == 'Efectivo' ? 'selected' : '' }}>Efectivo</option>
-            <option value="Pago Virtual" {{ old('metodo_pago') == 'Pago Virtual' ? 'selected' : '' }}>Pago Virtual</option>
-        </select>
-        <label for="metodo_pago" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Metodo de Pago</label>
-   
-    @error('metodo_pago')
-            <p class="text-red-500 text-xs mt-1 font-medium">{{ $message }}</p>
-        @enderror
-     </div>
-     <!-- Comite -->
-    <div class="relative z-0 w-full mb-5 group">
-        <input type="text" name="comite" id="comite" value="{{ old('comite') }}"
-               class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-black dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-               placeholder=" " required />
-        <label for="comite" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Comité</label>
-    @error('comite')
-            <p class="text-red-500 text-xs mt-1 font-medium">{{ $message }}</p>
-        @enderror
-    </div>
-  </div>
-    <!-- Usuario que lo registra -->
-    <div class="relative z-0 w-full mb-5 group">
-        <select name="codigo_usuario" id="codigo_usuario"  
-                class="peer block py-2.5 px-0 w-full text-sm text-black-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-black dark:border-gray-600 focus:outline-none focus:ring-0 focus:border-blue-600 peer" required>
-            <option value="">Seleccione un usuario</option>
-            @foreach($usuario as $u)
-                <option value="{{ $u->id_numero_documento }}">{{ $u->nombre }} {{ $u->apellido }}</option>
-            @endforeach
-        </select>
-        <label for="codigo_usuario" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Nombre del Responsable</label>
-   @error('lugar')
-            <p class="text-red-500 text-xs mt-1 font-medium">{{ $message }}</p>
-        @enderror
-    </div>
-    <!-- Botón Guardar -->
-      <button type="submit" class="text-white bg-blue-500 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">
-        Guardar
-        </button>
-</form>
+                        <!-- Card del Formulario -->
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="text-lg font-semibold">Información del Movimiento Financiero</h3>
+                            </div>
+                            <div class="card-body p-6">
 
-              </div>
+                                @if (session('error'))
+                                    <div class="mb-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg">
+                                        {{ session('error') }}
+                                    </div>
+                                @endif
+
+                                @if (session('success'))
+                                    <div class="mb-6 p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg">
+                                        {{ session('success') }}
+                                    </div>
+                                @endif
+
+                                <!-- Fecha -->
+                                <div class="mb-4">
+                                    <label for="fecha" class="block text-sm font-medium text-gray-700">Fecha *</label>
+                                    <input type="date" 
+                                           name="fecha" 
+                                           id="fecha"
+                                           value="{{ old('fecha') }}"
+                                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('fecha') border-red-500 bg-red-50 @enderror">
+                                    @error('fecha')
+                                        <p class="text-red-500 text-xs mt-1 font-medium">{{ $message }}</p>
+                                    @enderror
+                                </div>
+
+                                <!-- Detalle -->
+                                <div class="mb-4">
+                                    <label for="detalle" class="block text-sm font-medium text-gray-700">Detalle *</label>
+                                    <input type="text" 
+                                           name="detalle" 
+                                           id="detalle"
+                                           value="{{ old('detalle') }}"
+                                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('detalle') border-red-500 bg-red-50 @enderror"
+                                           placeholder="Descripción del movimiento">
+                                    @error('detalle')
+                                        <p class="text-red-500 text-xs mt-1 font-medium">{{ $message }}</p>
+                                    @enderror
+                                </div>
+
+                                <!-- Grid: Tipo de Transacción y Valor -->
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                    <!-- Tipo de Transacción -->
+                                    <div>
+                                        <label for="tipo" class="block text-sm font-medium text-gray-700">Tipo de Movimiento *</label>
+                                        <select name="tipo" 
+                                                id="tipo"
+                                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('tipo') border-red-500 bg-red-50 @enderror">
+                                            <option value="">Seleccione un tipo</option>
+                                            <option value="Debito" {{ old('tipo') == 'Debito' ? 'selected' : '' }}>Débito</option>
+                                            <option value="Credito" {{ old('tipo') == 'Credito' ? 'selected' : '' }}>Crédito</option>
+                                            <option value="Voto" {{ old('tipo') == 'Voto' ? 'selected' : '' }}>Voto</option>
+                                        </select>
+                                        @error('tipo')
+                                            <p class="text-red-500 text-xs mt-1 font-medium">{{ $message }}</p>
+                                        @enderror
+                                    </div>
+
+                                    <!-- Valor -->
+                                    <div>
+                                        <label for="valor" class="block text-sm font-medium text-gray-700">Valor *</label>
+                                        <input type="number" 
+                                               name="valor" 
+                                               id="valor"
+                                               value="{{ old('valor') }}"
+                                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('valor') border-red-500 bg-red-50 @enderror"
+                                               placeholder="0">
+                                        @error('valor')
+                                            <p class="text-red-500 text-xs mt-1 font-medium">{{ $message }}</p>
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                <!-- Grid: Método de Pago y Comité -->
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                    <!-- Método de Pago -->
+                                    <div>
+                                        <label for="metodo_pago" class="block text-sm font-medium text-gray-700">Método de Pago *</label>
+                                        <select name="metodo_pago" 
+                                                id="metodo_pago"
+                                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('metodo_pago') border-red-500 bg-red-50 @enderror">
+                                            <option value="">Seleccione método</option>
+                                            <option value="Efectivo" {{ old('metodo_pago') == 'Efectivo' ? 'selected' : '' }}>Efectivo</option>
+                                            <option value="Pago Virtual" {{ old('metodo_pago') == 'Pago Virtual' ? 'selected' : '' }}>Pago Virtual</option>
+                                        </select>
+                                        @error('metodo_pago')
+                                            <p class="text-red-500 text-xs mt-1 font-medium">{{ $message }}</p>
+                                        @enderror
+                                    </div>
+
+                                    <!-- Comité -->
+                                    <div>
+                                        <label for="comite" class="block text-sm font-medium text-gray-700">Comité *</label>
+                                        <input type="text" 
+                                               name="comite" 
+                                               id="comite"
+                                               value="{{ old('comite') }}"
+                                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('comite') border-red-500 bg-red-50 @enderror"
+                                               placeholder="Nombre del comité">
+                                        @error('comite')
+                                            <p class="text-red-500 text-xs mt-1 font-medium">{{ $message }}</p>
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                <!-- Usuario Responsable -->
+                                <div class="mb-4">
+                                    <label for="codigo_usuario" class="block text-sm font-medium text-gray-700">Usuario Responsable *</label>
+                                    <select name="codigo_usuario" 
+                                            id="codigo_usuario"
+                                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('codigo_usuario') border-red-500 bg-red-50 @enderror">
+                                        <option value="">Seleccione un usuario</option>
+                                        @foreach($usuario as $u)
+                                            <option value="{{ $u->id_numero_documento }}" {{ old('codigo_usuario') == $u->id_numero_documento ? 'selected' : '' }}>
+                                                {{ $u->nombre }} {{ $u->apellido }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    @error('codigo_usuario')
+                                        <p class="text-red-500 text-xs mt-1 font-medium">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Botones de Acción -->
+                        <div class="flex justify-end space-x-4">
+                            <a href="{{ route('finanzas.index') }}" class="btn btn-secondary">
+                                <i class="fas fa-times"></i> Cancelar
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Guardar Movimiento
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
+
+    <style>
+        :root {
+            --primary: #05559D;
+            --secondary: #6c757d;
+            --success: #28a745;
+            --danger: #dc3545;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #044480;
+            color: white;
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #545b62;
+            color: white;
+        }
+
+        .card {
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .card-header {
+            background-color: #f8f9fa;
+            padding: 16px 20px;
+            border-bottom: 1px solid #e2e8f0;
+            font-weight: 600;
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        input, select, textarea {
+            border: 1px solid #d1d5db;
+            padding: 10px 12px;
+            width: 100%;
+            border-radius: 6px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(5, 85, 157, 0.1);
+        }
+
+        input.border-red-500, select.border-red-500, textarea.border-red-500 {
+            border-color: var(--danger);
+            background-color: #fef2f2;
+        }
+
+        .bg-red-50 {
+            background-color: #fef2f2;
+        }
+
+        label {
+            font-weight: 500;
+            margin-bottom: 4px;
+            display: block;
+        }
+
+        .text-red-500 {
+            color: var(--danger);
+        }
+
+        .space-y-6 > * + * {
+            margin-top: 24px;
+        }
+
+        .mb-4 {
+            margin-bottom: 16px;
+        }
+
+        .flex {
+            display: flex;
+        }
+
+        .justify-end {
+            justify-content: flex-end;
+        }
+
+        .space-x-4 > * + * {
+            margin-left: 16px;
+        }
+
+        .grid {
+            display: grid;
+        }
+
+        .grid-cols-1 {
+            grid-template-columns: 1fr;
+        }
+
+        .grid-cols-2 {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .gap-4 {
+            gap: 16px;
+        }
+
+        @media (max-width: 768px) {
+            .grid-cols-2 {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+
+    <!-- Incluir Font Awesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </x-app-layout>
